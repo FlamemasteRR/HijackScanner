@@ -1,14 +1,18 @@
 # HijackScanner
 ---EN---
+
 HijackScanner is a fork of HijackThis!, which is wrote using C++ and Visual Studio. 
 
 Documentation
+
 Documentation isn't wrote so far, sorry.
 
 Building
 
 Requirements:
+
 1. Windows
+
 2. Visual Studio (2013 and above)
 
 Also ensure that:
@@ -22,13 +26,17 @@ Set the GYP_MSVS_VERSION environment variable to the Visual Studio/Build Tools v
 You can download code and use it in projects by copying them from source files or, if you want to use project, "fork" and clone it.
 
 ---RU---
+
 HijackScanner - это форк(продолжение) HijackThis!, написанный на C++ и Visual Studio.
 
 Документация
+
 Прошу прощения, но документация пока не написана.
 
 Требования
+
 1. Windows
+
 2. Visual Studio (2013 и выше)
 
 И еще:
