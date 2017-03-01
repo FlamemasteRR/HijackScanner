@@ -44,7 +44,8 @@ void OpenKeyE(HKEY* hKey, wchar_t* wchKey, REGSAM rsRights = KEY_ALL_ACCESS)
 }
 #pragma endregion
 
-//CAREFUL: Don't create wchResult before using this function
+//CAREFUL: Don't create wchResult before using this functions
+//TODO: Delete[] result variable after using
 #pragma region ReadStringValue
 int ReadStringValueAR(wchar_t* wchKey, wchar_t* wchValue, wchar_t** wchResult)
 {
@@ -53,7 +54,7 @@ int ReadStringValueAR(wchar_t* wchKey, wchar_t* wchValue, wchar_t** wchResult)
 	
 	if (iReturnCode = (OpenKeyR(hKey, wchKey, KEY_READ) == ERROR_SUCCESS)) //Open key
 	{
-		DWORD* iValueLength = new DWORD;
+		DWORD* iValueLength = new DWORD(0);
 		if (iReturnCode = (RegGetValueW(*hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, NULL, iValueLength)) == ERROR_SUCCESS) //Get value's string length
 		{
 			wchar_t* wchResult_2 = new wchar_t[*iValueLength];
@@ -72,7 +73,7 @@ int ReadStringValueBR(HKEY hKey, wchar_t* wchValue, wchar_t** wchResult)
 {
 	long iReturnCode = -1; //For result code of ReadValue
 
-	DWORD* iValueLength = new DWORD;
+	DWORD* iValueLength = new DWORD(0);
 	if (iReturnCode = (RegGetValueW(hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, NULL, iValueLength)) == ERROR_SUCCESS) //Get value's string length
 	{
 		wchar_t* wchResult_2 = new wchar_t[*iValueLength];
@@ -93,23 +94,19 @@ void ReadStringValueAE(wchar_t* wchKey, wchar_t* wchValue, wchar_t** wchResult)
 
 	if (*iReturnCode = (OpenKeyR(hKey, wchKey, KEY_READ) == ERROR_SUCCESS)) //Open key
 	{
-		DWORD* iValueLength = new DWORD;
+		DWORD* iValueLength = new DWORD(0);
 		if (*iReturnCode = (RegGetValueW(*hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, NULL, iValueLength)) == ERROR_SUCCESS) //Get value's string length
 		{
 			wchar_t* wchResult_2 = new wchar_t[*iValueLength];
 			if (*iReturnCode = (RegGetValueW(*hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, &wchResult_2, iValueLength)) == ERROR_SUCCESS) //Get value
 				wchResult = &wchResult_2; //Set result's address
 			else
-			{
 				delete[] wchResult_2; //Otherwise, delete variable
-				throw (*iReturnCode);
-			}
 		}
-		else
-			throw (*iReturnCode);
 		delete iValueLength;
 	}
-	else
+
+	if (*iReturnCode != ERROR_SUCCESS)
 		throw (*iReturnCode);
 
 	delete hKey;
@@ -119,25 +116,70 @@ void ReadStringValueBE(HKEY hKey, wchar_t* wchValue, wchar_t** wchResult)
 {
 	long* iReturnCode = new long(-1); //For result code of ReadValue
 
-	DWORD* iValueLength = new DWORD;
+	DWORD* iValueLength = new DWORD(0);
 	if (*iReturnCode = (RegGetValueW(hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, NULL, iValueLength)) == ERROR_SUCCESS) //Get value's string length
 	{
 		wchar_t* wchResult_2 = new wchar_t[*iValueLength];
 		if (*iReturnCode = (RegGetValueW(hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, &wchResult_2, iValueLength)) == ERROR_SUCCESS) //Get value
 			wchResult = &wchResult_2; //Set result's address
 		else
-		{
 			delete[] wchResult_2; //Otherwise, delete variable
-			throw (*iReturnCode);
-		}
 	}
-	else
-		throw (*iReturnCode);
 	delete iValueLength;
+
+	if (*iReturnCode != ERROR_SUCCESS)
+		throw (*iReturnCode);
 
 	delete iReturnCode;
 	delete hKey; 
 }
 #pragma endregion
+#pragma region ReadIntValue
+int ReadIntValueAR(wchar_t* wchKey, wchar_t* wchValue, int* iResult)
+{
+	long iReturnCode = -1; //For result code of ReadValue
+	HKEY* hKey = new HKEY;
 
+	if (iReturnCode = (OpenKeyR(hKey, wchKey, KEY_READ) == ERROR_SUCCESS)) //Open key
+		iReturnCode = RegGetValueW(*hKey, NULL, wchValue, RRF_RT_REG_DWORD, NULL, iResult, NULL); //Read int value
+
+	delete hKey;
+	return iReturnCode;
+}
+int ReadIntValueBR(HKEY hKey, wchar_t* wchValue, int* iResult)
+{
+	long iReturnCode = -1; //For result code of ReadValue
+
+	iReturnCode = RegGetValueW(hKey, NULL, wchValue, RRF_RT_REG_DWORD, NULL, iResult, NULL); //Read int value
+
+	delete hKey;
+	return iReturnCode;
+}
+void ReadIntValueAE(wchar_t* wchKey, wchar_t* wchValue, int* iResult)
+{
+	long* iReturnCode = new long(-1l); //For result code of ReadValue
+	HKEY* hKey = new HKEY;
+
+	if ((*iReturnCode = OpenKeyR(hKey, wchKey, KEY_READ)) == ERROR_SUCCESS) //Open key
+		*iReturnCode = RegGetValueW(*hKey, NULL, wchValue, RRF_RT_REG_DWORD, NULL, iResult, NULL); //Read int value
+
+	if (*iReturnCode != ERROR_SUCCESS)
+		throw (*iReturnCode);
+
+	delete hKey;
+	delete iReturnCode;
+}
+void ReadIntValueBE(HKEY hKey, wchar_t* wchValue, int* iResult)
+{
+	long* iReturnCode = new long(-1); //For result code of ReadValue
+
+	*iReturnCode = RegGetValueW(hKey, NULL, wchValue, RRF_RT_REG_DWORD, NULL, iResult, NULL);
+
+	if (*iReturnCode != ERROR_SUCCESS)
+		throw (*iReturnCode);
+
+	delete iReturnCode;
+	delete hKey;
+}
+#pragma endregion
 //TODO: Check all functions

@@ -8,7 +8,7 @@ RU:
 Выберите что вы хотите: использовать исключения или коды ошибок в случае ошибки.
 */
 //#define NO_ERROR_CODES
-//#define NO_EXCEPTIONS
+#define NO_EXCEPTIONS
 int main()
 {
 

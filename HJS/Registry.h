@@ -20,3 +20,14 @@ int ReadStringValueBR(HKEY hKey, wchar_t* wchValue, wchar_t** wchResult);
 void ReadStringValueAE(wchar_t* wchKey, wchar_t* wchValue, wchar_t** wchResult);
 void ReadStringValueBE(HKEY hKey, wchar_t* wchValue, wchar_t** wchResult);
 #endif
+#ifdef NO_EXCEPTIONS
+#define ReadIntValueA ReadIntValueAR
+#define ReadIntValueB ReadIntValueBR
+int ReadIntValueAR(wchar_t* wchKey, wchar_t* wchValue, int* iResult);
+int ReadIntValueBR(HKEY hKey, wchar_t* wchValue, int* iResult);
+#elseif NO_ERROR_CODES
+#define ReadIntValueA ReadIntValueAE
+#define ReadIntValueB ReadIntValueBE
+void ReadIntValueAE(wchar_t* wchKey, wchar_t* wchValue, int* iResult);
+void ReadIntValueBE(HKEY hKey, wchar_t* wchValue, int* iResult);
+#endif
