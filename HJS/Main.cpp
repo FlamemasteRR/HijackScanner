@@ -11,5 +11,5 @@ RU:
 #define NO_EXCEPTIONS
 int main()
 {
-
+	return 0;
 }
