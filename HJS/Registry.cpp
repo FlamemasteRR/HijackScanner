@@ -202,6 +202,7 @@ int GetKeyInfoB(HKEY hKey, LPDWORD rdwSubkeysCount, LPDWORD rdwSubkeyNameMaxLen,
 	return lReturnCode;
 }
 
+//CAREFUL: Don't create wchResult. It will be created in result of function.
 #pragma region ReadSubkeys
 int ReadSubkeysAR(wchar_t* wchKey, wchar_t* wchValue, wchar_t*** wchResult) //wchar_t*** is pointer to array of strings
 {
