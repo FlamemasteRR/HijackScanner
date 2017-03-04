@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FileMan.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ProcMan.cpp" />
     <ClCompile Include="Registry.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FileMan.h" />
     <ClInclude Include="ProcMan.h" />
     <ClInclude Include="Registry.h" />
   </ItemGroup>
