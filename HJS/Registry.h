@@ -42,6 +42,17 @@ int ReadSubkeysBR(HKEY hKey, wchar_t* wchValue, wchar_t*** wchResult);
 void ReadSubkeysAE(wchar_t* wchKey, wchar_t* wchValue, wchar_t*** wchResult);
 void ReadSubkeysBE(HKEY hKey, wchar_t* wchValue, wchar_t*** wchResult);
 #endif
+#ifdef NO_EXCEPTIONS
+#define ReadValuesA ReadValuesAR
+#define ReadValuesB ReadValuesBR
+int ReadValuesAR(wchar_t* wchKey, wchar_t*** rwchValueNames);
+int ReadValuesBR(HKEY hKey, wchar_t*** rwchValueNames);
+#elseif NO_ERROR_CODES
+#define ReadValuesA ReadValuesAE
+#define ReadValuesB ReadValuesBE
+void ReadValuesAE(wchar_t* wchKey, wchar_t*** rwchValueNames);
+void ReadValuesBE(HKEY hKey, wchar_t*** rwchValueNames);
+#endif
 
 int GetKeyInfoA(wchar_t* wchKey, LPDWORD rdwSubkeysCount = NULL, LPDWORD rdwSubkeyNameMaxLen = NULL,
 	LPDWORD rdwValuesCount = NULL, LPDWORD rdwValueNameMaxLen = NULL, LPDWORD rdwValueMaxLen = NULL);
