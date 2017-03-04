@@ -17,9 +17,15 @@
     <ClCompile Include="Registry.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="ProcMan.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Registry.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcMan.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
