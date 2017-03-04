@@ -58,3 +58,36 @@ int GetKeyInfoA(wchar_t* wchKey, LPDWORD rdwSubkeysCount = NULL, LPDWORD rdwSubk
 	LPDWORD rdwValuesCount = NULL, LPDWORD rdwValueNameMaxLen = NULL, LPDWORD rdwValueMaxLen = NULL);
 int GetKeyInfoB(HKEY hKey, LPDWORD rdwSubkeysCount = NULL, LPDWORD rdwSubkeyNameMaxLen = NULL,
 	LPDWORD rdwValuesCount = NULL, LPDWORD rdwValueNameMaxLen = NULL, LPDWORD rdwValueMaxLen = NULL);
+
+#ifdef NO_EXCEPTIONS
+#define WriteValueA WriteValueAR
+#define WriteValueB WriteValueBR
+int WriteValueAR(wchar_t* wchKey, wchar_t* wchValueName, DWORD dwType, PVOID pvValue)
+int WriteValueBR(HKEY hKey, wchar_t* wchValueName, DWORD dwType, PVOID pvValue)
+#elseif NO_ERROR_CODES
+#define WriteValueA WriteValueAE
+#define WriteValueB WriteValueBE
+void WriteValueAE(wchar_t* wchKey, wchar_t* wchValueName, DWORD dwType, PVOID pvValue)
+void WriteValueBR(HKEY hKey, wchar_t* wchValueName, DWORD dwType, PVOID pvValue)
+#endif
+#ifdef NO_EXCEPTIONS
+#define DeleteValueA DeleteValueAR
+#define DeleteValueB DeleteValueBR
+int DeleteValueAR(wchar_t* wchKey, wchar_t*** rwchValueNames);
+int DeleteValueBR(HKEY hKey, wchar_t* wchValueName);
+#elseif NO_ERROR_CODES
+#define DeleteValueA DeleteValueAE
+#define DeleteValueB DeleteValueBE
+void DeleteValueAE(wchar_t* wchKey, wchar_t* wchValueName);
+void DeleteValueBE(HKEY hKey, wchar_t* wchValueName);
+#endif
+
+int LastSymbolIndex(wchar_t* wchString, wchar_t wchChar);
+
+#ifdef NO_EXCEPTIONS
+#define DeleteKey DeleteKeyR
+int DeleteKeyR(wchar_t* wchKey)
+#elseif NO_ERROR_CODES
+#define DeleteKey DeleteKeyE
+void DeleteKeyE(wchar_t* wchKey)
+#endif

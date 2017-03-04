@@ -45,7 +45,7 @@ void OpenKeyE(HKEY* hKey, wchar_t* wchKey, REGSAM rsRights = KEY_ALL_ACCESS)
 #pragma endregion
 
 //CAREFUL: Don't create wchResult before using these functions
-//TODO: Delete[] or delete result variable after using
+//TODO: Delete[] result variable(wchResult) after using
 #pragma region ReadStringValue
 int ReadStringValueAR(wchar_t* wchKey, wchar_t* wchValue, wchar_t** wchResult)
 {
@@ -611,6 +611,159 @@ void ReadValuesBE(HKEY hKey, wchar_t*** rwchValueNames) //wchar_t*** is pointer 
 }
 #pragma endregion
 
+#pragma region EditRegistry
+//NOTE: PVOID can be pointer to any type
+#pragma region WriteValue
+int WriteValueAR(wchar_t* wchKey, wchar_t* wchValueName, DWORD dwType, PVOID pvValue)
+{
+	long lResultCode = -1;
+	HKEY* hKey = new HKEY;
+
+	if ((lResultCode = OpenKeyR(hKey, wchKey, KEY_SET_VALUE)) == ERROR_SUCCESS)
+	{
+		BYTE* abValue = new BYTE[sizeof(pvValue)];
+		memcpy(abValue, pvValue, sizeof(pvValue));
+
+		lResultCode = RegSetValueExW(*hKey, wchValueName, NULL, dwType, abValue, sizeof(pvValue)) == ERROR_SUCCESS;
+
+		delete[] abValue;
+	}
+
+	delete hKey;
+	return lResultCode;
+}
+int WriteValueBR(HKEY hKey, wchar_t* wchValueName, DWORD dwType, PVOID pvValue)
+{
+	long lResultCode = -1;
+
+	BYTE* abValue = new BYTE[sizeof(pvValue)];
+	memcpy(abValue, pvValue, sizeof(pvValue));
+
+	lResultCode = RegSetValueExW(hKey, wchValueName, NULL, dwType, abValue, sizeof(pvValue)) == ERROR_SUCCESS;
+
+	delete[] abValue;
+
+	return lResultCode;
+}
+void WriteValueAE(wchar_t* wchKey, wchar_t* wchValueName, DWORD dwType, PVOID pvValue)
+{
+	long* lResultCode = new long(-1);
+	HKEY* hKey = new HKEY;
+
+	if ((*lResultCode = OpenKeyR(hKey, wchKey, KEY_SET_VALUE)) == ERROR_SUCCESS)
+	{
+		BYTE* abValue = new BYTE[sizeof(pvValue)];
+		memcpy(abValue, pvValue, sizeof(pvValue));
+
+		*lResultCode = RegSetValueExW(*hKey, wchValueName, NULL, dwType, abValue, sizeof(pvValue)) == ERROR_SUCCESS;
+
+		delete[] abValue;
+	}
+
+	if (lResultCode != ERROR_SUCCESS)
+		throw lResultCode;
+
+	delete hKey;
+	delete lResultCode;
+}
+void WriteValueBE(HKEY hKey, wchar_t* wchValueName, DWORD dwType, PVOID pvValue)
+{
+	long* lResultCode = new long(-1);
+
+	BYTE* abValue = new BYTE[sizeof(pvValue)];
+	memcpy(abValue, pvValue, sizeof(pvValue));
+
+	*lResultCode = RegSetValueExW(hKey, wchValueName, NULL, dwType, abValue, sizeof(pvValue)) == ERROR_SUCCESS;
+
+	delete[] abValue;
+
+	delete lResultCode;
+}
+#pragma endregion
+#pragma region DeleteValue
+int DeleteValueAR(wchar_t* wchKey, wchar_t* wchValueName)
+{
+	HKEY hKey;
+
+	if (OpenKeyR(&hKey, wchKey, KEY_SET_VALUE))
+		return RegDeleteValueW(hKey, wchValueName);
+	else
+		return -1;
+}
+int DeleteValueBR(HKEY hKey, wchar_t* wchValueName)
+{
+	return RegDeleteValueW(hKey, wchValueName);
+}
+void DeleteValueAE(wchar_t* wchKey, wchar_t* wchValueName)
+{
+	HKEY* hKey = new HKEY;
+
+	if (OpenKeyR(hKey, wchKey, KEY_SET_VALUE))
+	{
+		long* lReturnCode = new long(RegDeleteValueW(*hKey, wchValueName));
+
+		if (*lReturnCode != ERROR_SUCCESS)
+			throw *lReturnCode;
+
+		delete lReturnCode;
+	}
+
+	delete hKey;
+}
+void DeleteValueBE(HKEY hKey, wchar_t* wchValueName)
+{
+	long* lReturnCode = new long(RegDeleteValueW(hKey, wchValueName));
+
+	if (*lReturnCode != ERROR_SUCCESS)
+		throw *lReturnCode;
+
+	delete lReturnCode;
+}
+#pragma endregion
+//CAREFUL: Delete[] wchResult after using
+wchar_t* CutString(wchar_t* wchString, int iFirstIndex, int iLastIndex) //asdfgfew, 0, 5 ->  asdfg
+{
+	wchar_t* wchResult = new wchar_t[iLastIndex - iFirstIndex + 1];
+
+	memcpy(wchResult, wchString + iFirstIndex, iLastIndex - iFirstIndex + 1);
+	wchResult[iLastIndex - iFirstIndex] = '\0';
+	/*int* j = new int(0);
+	for (int i = iFirstIndex; i < iLastIndex; i++)
+		wchResult[(*j)++] = wchString[i];
+	delete j;*/
+
+	return wchResult;
+}
+//wcsrchr
+#pragma region DeleteKey
+int DeleteKeyR(wchar_t* wchKey)
+{
+	long lResultCode = -1;
+	HKEY* hKey = new HKEY;
+
+	if ((lResultCode = OpenKeyR(hKey, CutString(wchKey, 0, wcsrchr(wchKey, L'\\') - wchKey))) == ERROR_SUCCESS) //TODO: Check wcsrchr(wchKey, L'\\') - wchKey + 1 returning last occurence index
+		lResultCode = RegDeleteKeyExW(*hKey, CutString(wchKey, 0, wcsrchr(wchKey, L'\\') - wchKey + 1), KEY_WOW64_32KEY, NULL); //If x64: KEY_WOW64_64KEY
+
+	delete hKey;
+	return lResultCode;
+}
+void DeleteKeyE(wchar_t* wchKey)
+{
+	long* lResultCode = new long(-1);
+	HKEY* hKey = new HKEY;
+
+	if ((*lResultCode = OpenKeyR(hKey, CutString(wchKey, 0, wcsrchr(wchKey, L'\\') - wchKey))) == ERROR_SUCCESS) //TODO: Check wcsrchr(wchKey, L'\\') - wchKey + 1 returning last occurence index
+		*lResultCode = RegDeleteKeyExW(*hKey, CutString(wchKey, 0, wcsrchr(wchKey, L'\\') - wchKey + 1), KEY_WOW64_32KEY, NULL); //If x64: KEY_WOW64_64KEY
+
+	if (*lResultCode != ERROR_SUCCESS)
+		throw *lResultCode;
+
+	delete hKey;
+	delete lResultCode;
+}
+#pragma endregion
+#pragma endregion
+
 //_____________________________________TODO List_____________________________________
-//TODO: Make DeleteKey, DeleteValue, WriteValue functions
+//TODO: Check wcsrchr(wchKey, L'\\') - wchKey + 1 returning last occurence index ::: LINE 755
 //TODO: Check all functions
