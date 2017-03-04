@@ -52,18 +52,18 @@ int ReadStringValueAR(wchar_t* wchKey, wchar_t* wchValue, wchar_t** wchResult)
 	long iReturnCode = -1; //For functions' result codes
 	HKEY* hKey = new HKEY;
 	
-	if (iReturnCode = OpenKeyR(hKey, wchKey, KEY_READ) == ERROR_SUCCESS) //Open key
+	if ((iReturnCode = OpenKeyR(hKey, wchKey, KEY_READ)) == ERROR_SUCCESS) //Open key
 	{
-		DWORD* iValueLength = new DWORD(0);
-		if (iReturnCode = RegGetValueW(*hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, NULL, iValueLength) == ERROR_SUCCESS) //Get string value's length
+		DWORD* dwValueLength = new DWORD(0);
+		if ((iReturnCode = RegGetValueW(*hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, NULL, dwValueLength)) == ERROR_SUCCESS) //Get string value's length
 		{
-			wchar_t* wchResult_2 = new wchar_t[*iValueLength];
-			if (iReturnCode = RegGetValueW(*hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, &wchResult_2, iValueLength) == ERROR_SUCCESS) //Get value
+			wchar_t* wchResult_2 = new wchar_t[*dwValueLength];
+			if ((iReturnCode = RegGetValueW(*hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, &wchResult_2, dwValueLength)) == ERROR_SUCCESS) //Get value
 				wchResult = &wchResult_2; //Result <- buffer :: if everything is OK
 			else
 				delete[] wchResult_2; //Otherwise, delete variable
 		}
-		delete iValueLength;
+		delete dwValueLength;
 	}
 
 	delete hKey;
@@ -73,16 +73,16 @@ int ReadStringValueBR(HKEY hKey, wchar_t* wchValue, wchar_t** wchResult)
 {
 	long iReturnCode = -1; //For functions' result codes
 
-	DWORD* iValueLength = new DWORD(0);
-	if (iReturnCode = RegGetValueW(hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, NULL, iValueLength) == ERROR_SUCCESS) //Get string value's length
+	DWORD* dwValueLength = new DWORD(0);
+	if ((iReturnCode = RegGetValueW(hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, NULL, dwValueLength)) == ERROR_SUCCESS) //Get string value's length
 	{
-		wchar_t* wchResult_2 = new wchar_t[*iValueLength];
-		if (iReturnCode = RegGetValueW(hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, &wchResult_2, iValueLength) == ERROR_SUCCESS) //Get value
+		wchar_t* wchResult_2 = new wchar_t[*dwValueLength];
+		if ((iReturnCode = RegGetValueW(hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, &wchResult_2, dwValueLength)) == ERROR_SUCCESS) //Get value
 			wchResult = &wchResult_2; //Result <- buffer :: if everything is OK
 		else
 			delete[] wchResult_2; //Otherwise, delete variable
 	}
-	delete iValueLength;
+	delete dwValueLength;
 
 	delete hKey;
 	return iReturnCode;
@@ -92,18 +92,18 @@ void ReadStringValueAE(wchar_t* wchKey, wchar_t* wchValue, wchar_t** wchResult)
 	long* iReturnCode = new long(-1l); //For functions' result codes
 	HKEY* hKey = new HKEY;
 
-	if (*iReturnCode = (OpenKeyR(hKey, wchKey, KEY_READ) == ERROR_SUCCESS)) //Open key
+	if ((*iReturnCode = OpenKeyR(hKey, wchKey, KEY_READ)) == ERROR_SUCCESS) //Open key
 	{
-		DWORD* iValueLength = new DWORD(0);
-		if (*iReturnCode = RegGetValueW(*hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, NULL, iValueLength) == ERROR_SUCCESS) //Get string value's length
+		DWORD* dwValueLength = new DWORD(0);
+		if ((*iReturnCode = RegGetValueW(*hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, NULL, dwValueLength)) == ERROR_SUCCESS) //Get string value's length
 		{
-			wchar_t* wchResult_2 = new wchar_t[*iValueLength];
-			if (*iReturnCode = (RegGetValueW(*hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, &wchResult_2, iValueLength)) == ERROR_SUCCESS) //Get value
+			wchar_t* wchResult_2 = new wchar_t[*dwValueLength];
+			if (*iReturnCode = (RegGetValueW(*hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, &wchResult_2, dwValueLength)) == ERROR_SUCCESS) //Get value
 				wchResult = &wchResult_2; //Result <- buffer :: if everything is OK
 			else
 				delete[] wchResult_2; //Otherwise, delete variable
 		}
-		delete iValueLength;
+		delete dwValueLength;
 	}
 
 	if (*iReturnCode != ERROR_SUCCESS)
@@ -116,16 +116,16 @@ void ReadStringValueBE(HKEY hKey, wchar_t* wchValue, wchar_t** wchResult)
 {
 	long* iReturnCode = new long(-1); //For functions' result codes
 
-	DWORD* iValueLength = new DWORD(0);
-	if (*iReturnCode = RegGetValueW(hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, NULL, iValueLength) == ERROR_SUCCESS) //Get string value's length
+	DWORD* dwValueLength = new DWORD(0);
+	if ((*iReturnCode = RegGetValueW(hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, NULL, dwValueLength)) == ERROR_SUCCESS) //Get string value's length
 	{
-		wchar_t* wchResult_2 = new wchar_t[*iValueLength];
-		if (*iReturnCode = (RegGetValueW(hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, &wchResult_2, iValueLength)) == ERROR_SUCCESS) //Get value
+		wchar_t* wchResult_2 = new wchar_t[*dwValueLength];
+		if ((*iReturnCode = RegGetValueW(hKey, NULL, wchValue, RRF_RT_REG_SZ, NULL, &wchResult_2, dwValueLength)) == ERROR_SUCCESS) //Get value
 			wchResult = &wchResult_2; //Result <- buffer :: if everything is OK
 		else
 			delete[] wchResult_2; //Otherwise, delete variable
 	}
-	delete iValueLength;
+	delete dwValueLength;
 
 	if (*iReturnCode != ERROR_SUCCESS)
 		throw (*iReturnCode);
@@ -141,7 +141,7 @@ int ReadIntValueAR(wchar_t* wchKey, wchar_t* wchValue, int* iResult)
 	long lReturnCode = -1; //For functions' result codes
 	HKEY* hKey = new HKEY;
 
-	if (lReturnCode = OpenKeyR(hKey, wchKey, KEY_READ) == ERROR_SUCCESS) //Open key
+	if ((lReturnCode = OpenKeyR(hKey, wchKey, KEY_READ)) == ERROR_SUCCESS) //Open key
 		lReturnCode = RegGetValueW(*hKey, NULL, wchValue, RRF_RT_REG_DWORD, NULL, iResult, NULL); //Read int value
 
 	delete hKey;
@@ -156,11 +156,9 @@ void ReadIntValueAE(wchar_t* wchKey, wchar_t* wchValue, int* iResult)
 	long* lReturnCode = new long(-1); //For functions' result codes
 	HKEY* hKey = new HKEY;
 
-	if (*lReturnCode = OpenKeyR(hKey, wchKey, KEY_READ) == ERROR_SUCCESS) //Open key
-		*lReturnCode = RegGetValueW(*hKey, NULL, wchValue, RRF_RT_REG_DWORD, NULL, iResult, NULL); //Read int value
-
-	if (*lReturnCode != ERROR_SUCCESS)
-		throw *lReturnCode;
+	if ((*lReturnCode = OpenKeyR(hKey, wchKey, KEY_READ)) == ERROR_SUCCESS) //Open key
+		if ((*lReturnCode = RegGetValueW(*hKey, NULL, wchValue, RRF_RT_REG_DWORD, NULL, iResult, NULL)) != ERROR_SUCCESS) //Read int value
+			throw *lReturnCode;
 
 	delete hKey;
 	delete lReturnCode;
@@ -169,9 +167,7 @@ void ReadIntValueBE(HKEY hKey, wchar_t* wchValue, int* iResult)
 {
 	long* lReturnCode = new long(-1); //For functions' result codes
 
-	*lReturnCode = RegGetValueW(hKey, NULL, wchValue, RRF_RT_REG_DWORD, NULL, iResult, NULL); //Read int value
-
-	if (*lReturnCode != ERROR_SUCCESS)
+	if ((*lReturnCode = RegGetValueW(hKey, NULL, wchValue, RRF_RT_REG_DWORD, NULL, iResult, NULL)) != ERROR_SUCCESS) //Read int value
 		throw (*lReturnCode);
 
 	delete lReturnCode;
@@ -185,7 +181,7 @@ int GetKeyInfoA(wchar_t* wchKey, LPDWORD rdwSubkeysCount, LPDWORD rdwSubkeyNameM
 	long lReturnCode = -1 ; //For functions' result codes
 	HKEY* hKey = new HKEY;
 
-	if (lReturnCode = OpenKeyR(hKey, wchKey, KEY_READ) == ERROR_SUCCESS) //Open key
+	if ((lReturnCode = OpenKeyR(hKey, wchKey, KEY_READ)) == ERROR_SUCCESS) //Open key
 		lReturnCode = RegQueryInfoKeyW(*hKey, NULL, NULL, NULL, rdwSubkeysCount, rdwSubkeyNameMaxLen, NULL, 
 			rdwValuesCount, rdwValueNameMaxLen, rdwValueMaxLen, NULL, NULL); //Query key info
 
@@ -209,14 +205,14 @@ int ReadSubkeysAR(wchar_t* wchKey, wchar_t* wchValue, wchar_t*** wchResult) //wc
 	long lReturnCode = -1; //For functions' result codes
 
 	HKEY* hKey = new HKEY;
-	if (lReturnCode = (OpenKeyR(hKey, wchKey, KEY_READ) == ERROR_SUCCESS)) //Open key
+	if ((lReturnCode = (OpenKeyR(hKey, wchKey, KEY_READ)) == ERROR_SUCCESS)) //Open key
 	{
 		DWORD* dwIndex = new DWORD(0);
 		DWORD* dwSubkeyCount = new DWORD(0);
 		DWORD* dwMaxSubkeyNameLen = new DWORD(0);
 		//Initialize variables
 
-		if (lReturnCode = GetKeyInfoB(*hKey, dwSubkeyCount, dwMaxSubkeyNameLen) == ERROR_SUCCESS) //Get subkeys info
+		if ((lReturnCode = GetKeyInfoB(*hKey, dwSubkeyCount, dwMaxSubkeyNameLen)) == ERROR_SUCCESS) //Get subkeys info
 		{
 			wchar_t* wchBuffer;
 			wchar_t** arrwchResult = new wchar_t*[*dwSubkeyCount];
@@ -225,19 +221,17 @@ int ReadSubkeysAR(wchar_t* wchKey, wchar_t* wchValue, wchar_t*** wchResult) //wc
 
 			for (; *dwIndex < *dwSubkeyCount; (*dwIndex)++)
 			{
-				lReturnCode = RegEnumKeyExW(*hKey, *dwIndex, NULL, dwSubkeyNameLen, NULL, NULL, NULL, NULL); //Get subkey name's length
-				if (lReturnCode != ERROR_SUCCESS)
+				if ((lReturnCode = RegEnumKeyExW(*hKey, *dwIndex, NULL, dwSubkeyNameLen, NULL, NULL, NULL, NULL)) != ERROR_SUCCESS) //Get subkey name's length
 					break;
 
 				wchBuffer = new wchar_t[*dwSubkeyNameLen]; //Buffer for result
-				lReturnCode = RegEnumKeyExW(*hKey, *dwIndex, wchBuffer, dwSubkeyNameLen, NULL, NULL, NULL, NULL); //Read current subkey's name
-				if (lReturnCode != ERROR_SUCCESS)
+				if ((lReturnCode = RegEnumKeyExW(*hKey, *dwIndex, wchBuffer, dwSubkeyNameLen, NULL, NULL, NULL, NULL)) != ERROR_SUCCESS) //Read current subkey's name
 				{
+					(*dwIndex)--;
 					delete[] wchBuffer;
 					break;
 				}
-
-				if (lReturnCode == ERROR_SUCCESS) //If everything is OK
+				else //If everything is OK
 				   arrwchResult[*dwIndex] = wchBuffer; //wchBuffer -> result array
 			}
 
@@ -268,7 +262,7 @@ int ReadSubkeysBR(HKEY hKey, wchar_t* wchValue, wchar_t*** wchResult) //wchar_t*
 	DWORD* dwMaxSubkeyNameLen = new DWORD(0);
 	//Initialize variables
 
-	if (lReturnCode = GetKeyInfoB(hKey, dwSubkeyCount, dwMaxSubkeyNameLen) == ERROR_SUCCESS) //Get subkeys info
+	if ((lReturnCode = GetKeyInfoB(hKey, dwSubkeyCount, dwMaxSubkeyNameLen)) == ERROR_SUCCESS) //Get subkeys info
 	{
 		wchar_t* wchBuffer;
 		wchar_t** arrwchResult = new wchar_t*[*dwSubkeyCount];
@@ -277,19 +271,17 @@ int ReadSubkeysBR(HKEY hKey, wchar_t* wchValue, wchar_t*** wchResult) //wchar_t*
 
 		for (; *dwIndex < *dwSubkeyCount; (*dwIndex)++)
 		{
-			lReturnCode = RegEnumKeyExW(hKey, *dwIndex, NULL, dwSubkeyNameLen, NULL, NULL, NULL, NULL); //Get subkey name's length
-			if (lReturnCode != ERROR_SUCCESS)
+			if ((lReturnCode = RegEnumKeyExW(hKey, *dwIndex, NULL, dwSubkeyNameLen, NULL, NULL, NULL, NULL)) != ERROR_SUCCESS) //Get subkey name's length
 				break;
 
 			wchBuffer = new wchar_t[*dwSubkeyNameLen]; //Buffer for result
-			lReturnCode = RegEnumKeyExW(hKey, *dwIndex, wchBuffer, dwSubkeyNameLen, NULL, NULL, NULL, NULL); //Read current subkey's name
-			if (lReturnCode != ERROR_SUCCESS)
+			if ((lReturnCode = RegEnumKeyExW(hKey, *dwIndex, wchBuffer, dwSubkeyNameLen, NULL, NULL, NULL, NULL)) != ERROR_SUCCESS) //Read current subkey's name
 			{
+				(*dwIndex)--;
 				delete[] wchBuffer;
 				break;
 			}
-
-			if (lReturnCode == ERROR_SUCCESS) //If everything is OK
+			else //If everything is OK
 				arrwchResult[*dwIndex] = wchBuffer; //wchBuffer -> result array
 		}
 
@@ -316,14 +308,14 @@ void ReadSubkeysAE(wchar_t* wchKey, wchar_t* wchValue, wchar_t*** wchResult) //w
 	long* lReturnCode = new long(-1); //For functions' result codes
 
 	HKEY* hKey = new HKEY;
-	if (*lReturnCode = (OpenKeyR(hKey, wchKey, KEY_READ) == ERROR_SUCCESS)) //Open key
+	if ((*lReturnCode = OpenKeyR(hKey, wchKey, KEY_READ)) == ERROR_SUCCESS) //Open key
 	{
 		DWORD* dwIndex = new DWORD(0);
 		DWORD* dwSubkeyCount = new DWORD(0);
 		DWORD* dwMaxSubkeyNameLen = new DWORD(0);
 		//Initialize variables
 
-		if (*lReturnCode = GetKeyInfoB(*hKey, dwSubkeyCount, dwMaxSubkeyNameLen) == ERROR_SUCCESS) //Get subkeys info
+		if ((*lReturnCode = GetKeyInfoB(*hKey, dwSubkeyCount, dwMaxSubkeyNameLen)) == ERROR_SUCCESS) //Get subkeys info
 		{
 			wchar_t* wchBuffer;
 			wchar_t** arrwchResult = new wchar_t*[*dwSubkeyCount];
@@ -332,19 +324,17 @@ void ReadSubkeysAE(wchar_t* wchKey, wchar_t* wchValue, wchar_t*** wchResult) //w
 
 			for (; *dwIndex < *dwSubkeyCount; (*dwIndex)++)
 			{
-				*lReturnCode = RegEnumKeyExW(*hKey, *dwIndex, NULL, dwSubkeyNameLen, NULL, NULL, NULL, NULL); //Get subkey name's length
-				if (*lReturnCode != ERROR_SUCCESS)
+				if ((*lReturnCode = RegEnumKeyExW(*hKey, *dwIndex, NULL, dwSubkeyNameLen, NULL, NULL, NULL, NULL)) != ERROR_SUCCESS) //Get subkey name's length
 					break;
 
 				wchBuffer = new wchar_t[*dwSubkeyNameLen]; //Buffer for result
-				*lReturnCode = RegEnumKeyExW(*hKey, *dwIndex, wchBuffer, dwSubkeyNameLen, NULL, NULL, NULL, NULL); //Read current subkey's name
-				if (*lReturnCode != ERROR_SUCCESS)
+				if ((*lReturnCode = RegEnumKeyExW(*hKey, *dwIndex, wchBuffer, dwSubkeyNameLen, NULL, NULL, NULL, NULL)) != ERROR_SUCCESS)//Get subkey name's length
 				{
+					(*dwIndex)--;
 					delete[] wchBuffer;
 					break;
 				}
-
-				if (*lReturnCode == ERROR_SUCCESS) //If everything is OK
+				else //If everything is OK
 					arrwchResult[*dwIndex] = wchBuffer; //wchBuffer -> result array
 			}
 
@@ -377,7 +367,7 @@ void ReadSubkeysBE(HKEY hKey, wchar_t* wchValue, wchar_t*** wchResult) //wchar_t
 	DWORD* dwMaxSubkeyNameLen = new DWORD(0);
 	//Initialize variables
 
-	if (*lReturnCode = GetKeyInfoB(hKey, dwSubkeyCount, dwMaxSubkeyNameLen) == ERROR_SUCCESS) //Get subkeys info
+	if ((*lReturnCode = GetKeyInfoB(hKey, dwSubkeyCount, dwMaxSubkeyNameLen)) == ERROR_SUCCESS) //Get subkeys info
 	{
 		wchar_t* wchBuffer;
 		wchar_t** arrwchResult = new wchar_t*[*dwSubkeyCount];
@@ -386,19 +376,17 @@ void ReadSubkeysBE(HKEY hKey, wchar_t* wchValue, wchar_t*** wchResult) //wchar_t
 
 		for (; *dwIndex < *dwSubkeyCount; (*dwIndex)++)
 		{
-			*lReturnCode = RegEnumKeyExW(hKey, *dwIndex, NULL, dwSubkeyNameLen, NULL, NULL, NULL, NULL); //Get subkey name's length
-			if (*lReturnCode != ERROR_SUCCESS)
+			if ((*lReturnCode = RegEnumKeyExW(hKey, *dwIndex, NULL, dwSubkeyNameLen, NULL, NULL, NULL, NULL)) != ERROR_SUCCESS) //Get subkey name's length
 				break;
 
 			wchBuffer = new wchar_t[*dwSubkeyNameLen]; //Buffer for result
-			*lReturnCode = RegEnumKeyExW(hKey, *dwIndex, wchBuffer, dwSubkeyNameLen, NULL, NULL, NULL, NULL); //Read current subkey's name
-			if (*lReturnCode != ERROR_SUCCESS)
+			if ((*lReturnCode = RegEnumKeyExW(hKey, *dwIndex, wchBuffer, dwSubkeyNameLen, NULL, NULL, NULL, NULL)) != ERROR_SUCCESS) //Read current subkey's name
 			{
+				(*dwIndex)--;
 				delete[] wchBuffer;
 				break;
 			}
-
-			if (*lReturnCode == ERROR_SUCCESS) //If everything is OK
+			else //If everything is OK
 				arrwchResult[*dwIndex] = wchBuffer; //wchBuffer -> result array
 		}
 
@@ -425,20 +413,21 @@ void ReadSubkeysBE(HKEY hKey, wchar_t* wchValue, wchar_t*** wchResult) //wchar_t
 	delete lReturnCode;
 }
 #pragma endregion
+//CAREFUL: Don't create rwchValueNames. It will be created in result of function.
 #pragma region ReadValues
 int ReadValuesAR(wchar_t* wchKey, wchar_t*** rwchValueNames) //wchar_t*** is pointer to array of strings
 {
 	long lReturnCode = -1; //For functions' result codes
 
 	HKEY* hKey = new HKEY;
-	if (lReturnCode = (OpenKeyR(hKey, wchKey, KEY_READ) == ERROR_SUCCESS)) //Open key
+	if ((lReturnCode = OpenKeyR(hKey, wchKey, KEY_READ)) == ERROR_SUCCESS) //Open key
 	{
 		DWORD* dwIndex = new DWORD(0);
 		DWORD* dwValuesCount = new DWORD(0);
 		wchar_t** wchValueNames = new wchar_t*[*dwValuesCount];
 		//Initialize variables
 
-		if (lReturnCode = GetKeyInfoB(*hKey, NULL, NULL, dwValuesCount, NULL, NULL) == ERROR_SUCCESS)
+		if ((lReturnCode = GetKeyInfoB(*hKey, NULL, NULL, dwValuesCount, NULL, NULL)) == ERROR_SUCCESS)
 		{
 			DWORD* dwValueNameLen = new DWORD(0);
 			wchar_t* wchValueNameBuffer;
@@ -446,17 +435,14 @@ int ReadValuesAR(wchar_t* wchKey, wchar_t*** rwchValueNames) //wchar_t*** is poi
 			
 			for (; *dwIndex < *dwValuesCount; (*dwIndex)++)
 			{
-				lReturnCode = RegEnumValueW(*hKey, *dwIndex, NULL, dwValueNameLen, NULL, NULL, NULL, NULL); //Get value name's length
-				if (lReturnCode != ERROR_SUCCESS)
+				if ((lReturnCode = RegEnumValueW(*hKey, *dwIndex, NULL, dwValueNameLen, NULL, NULL, NULL, NULL)) != ERROR_SUCCESS) //Get value name's length
 				{
-					(*dwIndex)--; //Decrement *dwIndex, (old)*dwIndex == *dwIndex + 1 -> (old)*dwIndex == *dwIndex
 					(*dwIndex)--; //Decrement *dwIndex, wchValueName[*dwIndex] is not created.
 					break;
 				}
 				wchValueNameBuffer = new wchar_t[*dwValueNameLen];
 
-				lReturnCode = RegEnumValueW(*hKey, *dwIndex, wchValueNameBuffer, NULL, NULL, NULL, NULL, NULL); //Get value's name
-				if (lReturnCode != ERROR_SUCCESS)
+				if ((lReturnCode = RegEnumValueW(*hKey, *dwIndex, wchValueNameBuffer, NULL, NULL, NULL, NULL, NULL)) != ERROR_SUCCESS) //Get value's name
 					break;
 				wchValueNames[*dwIndex] = wchValueNameBuffer;
 			}
@@ -489,7 +475,7 @@ int ReadValuesBR(HKEY hKey, wchar_t*** rwchValueNames) //wchar_t*** is pointer t
 	wchar_t** wchValueNames = new wchar_t*[*dwValuesCount];
 	//Initialize variables
 
-	if (lReturnCode = GetKeyInfoB(hKey, NULL, NULL, dwValuesCount, NULL, NULL) == ERROR_SUCCESS)
+	if ((lReturnCode = GetKeyInfoB(hKey, NULL, NULL, dwValuesCount, NULL, NULL)) == ERROR_SUCCESS)
 	{
 		DWORD* dwValueNameLen = new DWORD(0);
 		wchar_t* wchValueNameBuffer;
@@ -497,17 +483,14 @@ int ReadValuesBR(HKEY hKey, wchar_t*** rwchValueNames) //wchar_t*** is pointer t
 
 		for (; *dwIndex < *dwValuesCount; (*dwIndex)++)
 		{
-			lReturnCode = RegEnumValueW(hKey, *dwIndex, NULL, dwValueNameLen, NULL, NULL, NULL, NULL); //Get value name's length
-			if (lReturnCode != ERROR_SUCCESS)
+			if ((lReturnCode = RegEnumValueW(hKey, *dwIndex, NULL, dwValueNameLen, NULL, NULL, NULL, NULL)) != ERROR_SUCCESS) //Get value name's length
 			{
-				(*dwIndex)--; //Decrement *dwIndex, (old)*dwIndex == *dwIndex + 1 -> (old)*dwIndex == *dwIndex
 				(*dwIndex)--; //Decrement *dwIndex, wchValueName[*dwIndex] is not created.
 				break;
 			}
 			wchValueNameBuffer = new wchar_t[*dwValueNameLen];
 
-			lReturnCode = RegEnumValueW(hKey, *dwIndex, wchValueNameBuffer, NULL, NULL, NULL, NULL, NULL); //Get value's name
-			if (lReturnCode != ERROR_SUCCESS)
+			if ((lReturnCode = RegEnumValueW(hKey, *dwIndex, wchValueNameBuffer, NULL, NULL, NULL, NULL, NULL)) != ERROR_SUCCESS) //Get value's name
 				break;
 			wchValueNames[*dwIndex] = wchValueNameBuffer;
 		}
@@ -549,17 +532,14 @@ void ReadValuesAE(wchar_t* wchKey, wchar_t*** rwchValueNames) //wchar_t*** is po
 
 			for (; *dwIndex < *dwValuesCount; (*dwIndex)++)
 			{
-				*lReturnCode = RegEnumValueW(*hKey, *dwIndex, NULL, dwValueNameLen, NULL, NULL, NULL, NULL); //Get value name's length
-				if (*lReturnCode != ERROR_SUCCESS)
+				if ((*lReturnCode = RegEnumValueW(*hKey, *dwIndex, NULL, dwValueNameLen, NULL, NULL, NULL, NULL)) != ERROR_SUCCESS) //Get value name's length
 				{
-					(*dwIndex)--; //Decrement *dwIndex, (old)*dwIndex == *dwIndex + 1 -> (old)*dwIndex == *dwIndex
 					(*dwIndex)--; //Decrement *dwIndex, wchValueName[*dwIndex] is not created.
 					break;
 				}
 				wchValueNameBuffer = new wchar_t[*dwValueNameLen];
 
-				*lReturnCode = RegEnumValueW(*hKey, *dwIndex, wchValueNameBuffer, NULL, NULL, NULL, NULL, NULL); //Get value's name
-				if (*lReturnCode != ERROR_SUCCESS)
+				if ((*lReturnCode = RegEnumValueW(*hKey, *dwIndex, wchValueNameBuffer, NULL, NULL, NULL, NULL, NULL)) != ERROR_SUCCESS) //Get value's name
 					break;
 				wchValueNames[*dwIndex] = wchValueNameBuffer;
 			}
@@ -601,17 +581,14 @@ void ReadValuesBE(HKEY hKey, wchar_t*** rwchValueNames) //wchar_t*** is pointer 
 
 		for (; *dwIndex < *dwValuesCount; (*dwIndex)++)
 		{
-			*lReturnCode = RegEnumValueW(hKey, *dwIndex, NULL, dwValueNameLen, NULL, NULL, NULL, NULL); //Get value name's length
-			if (*lReturnCode != ERROR_SUCCESS)
+			if ((*lReturnCode = RegEnumValueW(hKey, *dwIndex, NULL, dwValueNameLen, NULL, NULL, NULL, NULL)) != ERROR_SUCCESS) //Get value name's length
 			{
-				(*dwIndex)--; //Decrement *dwIndex, (old)*dwIndex == *dwIndex + 1 -> (old)*dwIndex == *dwIndex
 				(*dwIndex)--; //Decrement *dwIndex, wchValueName[*dwIndex] is not created.
 				break;
 			}
 			wchValueNameBuffer = new wchar_t[*dwValueNameLen];
 
-			*lReturnCode = RegEnumValueW(hKey, *dwIndex, wchValueNameBuffer, NULL, NULL, NULL, NULL, NULL); //Get value's name
-			if (*lReturnCode != ERROR_SUCCESS)
+			if ((*lReturnCode = RegEnumValueW(hKey, *dwIndex, wchValueNameBuffer, NULL, NULL, NULL, NULL, NULL)) != ERROR_SUCCESS) //Get value's name
 				break;
 			wchValueNames[*dwIndex] = wchValueNameBuffer;
 		}
@@ -635,5 +612,5 @@ void ReadValuesBE(HKEY hKey, wchar_t*** rwchValueNames) //wchar_t*** is pointer 
 #pragma endregion
 
 //_____________________________________TODO List_____________________________________
-//TODO: Make ReadValueNames, ReadValues functions
+//TODO: Make DeleteKey, DeleteValue, WriteValue functions
 //TODO: Check all functions
